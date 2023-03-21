@@ -2,9 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { stringify } = require('querystring');
-const PORT=3000;
+const hostname="0.0.0.0"
+// const port=3000;
 //while deploying in cloud use the below syntax for port variable
-// const PORT=process.env || 3000;
+const port = process.env.PORT || 3000;
 const app=express();
 
 const uri="mongodb://ram:ram@ac-cktkkgh-shard-00-00.2lhqsge.mongodb.net:27017,ac-cktkkgh-shard-00-01.2lhqsge.mongodb.net:27017,ac-cktkkgh-shard-00-02.2lhqsge.mongodb.net:27017/?ssl=true&replicaSet=atlas-mplax0-shard-0&authSource=admin&retryWrites=true&w=majority";
@@ -129,6 +130,6 @@ app.patch("/update/:id",async(req,res)=>{
 
 
 
-app.listen(PORT,()=>{
-    console.log(`app started listening http://localhost:${PORT}`);
+app.listen(port,hostname,()=>{
+    console.log(`app started listening http://localhost:${port}`);
 })
