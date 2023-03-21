@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students | Data</title>
+    <link rel="stylesheet" href="./style.css">
+    <script type="text/javascript">
+        //search student
+        function searchstd(){
+            let roll_num=document.getElementById("search_std_roll_num").value
+            let url="/student/"+roll_num
+            location.reload()
+            window.open(url, "_parent");
+            
+        }
+
+        // update student
+        function updatestd(){
+            let roll_number=document.getElementById("std_update_roll_num").value
+            let email=document.getElementById("up_email").value
+            let std_name=document.getElementById("up_std_name").value
+            let age=document.getElementById("up_age").value
+            let roll_num=document.getElementById("up_roll_num").value
+            let ph_num=document.getElementById("up_ph_num").value
+            let address=document.getElementById("up_address").value
+            let body_content={
+                "email":email,
+                "std_name":std_name,
+                "age":age,
+                "roll_num":roll_num,
+                "ph_num":ph_num,
+                "address":address
+            }
+            if(roll_number!=""){
+                let url="/update/"+roll_number
+                fetch(url,{
+                    method:"PATCH",
+                    body:JSON.stringify(body_content),
+                    headers:{
+                        'Content-type':'application/json; charset=UTF-8'
+                    }
+                    
+                }).then((response)=>{
+                    if(response.status==200){
+                        location.reload()
+                        alert("student not found")
+                    }
+                    else if(response.status==203){
+                        location.reload()
+                        alert("Student updated sucessfully")
+                    }
+                    else{
+                        alert(response.status)
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+           }
+
+
+           
+        }
+        // delete student
+        function deletestd(){
+            let roll_num=document.getElementById("std_roll_num").value
+            if(roll_num!=""){
+                let url="/delete/"+roll_num
+                fetch(url,{
+                    method:"DELETE"
+                }).then((response)=>{
+                    if(response.status==200){
+                        location.reload()
+                        alert("student not found")
+                    }
+                    else if(response.status==203){
+                        location.reload()
+                        alert("Student deleted sucessfully")
+                    }
+                    else{
+                        alert(response.status)
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+           }
+        }
+        
+    </script>
+</head>
+<body>
+    <main>
+        <div class="nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/Students">Students</a></li>
+                <li><a href="#update">Update</a></li>
+                <li><a href="#delete">Delete</a></li>
+                <li><a href="#search">Search</a></li>
+            </ul>
+        </div>
+        <h1>Welcome Students</h1>
+        <h3>Students Registration Form</h3><br>
+        <div class="form">
+        <form action="/addstudent" method="post">
+            <input type="email" placeholder="Enter your Email" name="email" id="email" autocomplete="off" required><br>
+            <input type="text" placeholder="Enter your Name" name="std_name" id="std_name" autocomplete="off" required><br>
+            <input type="number" placeholder="Enter your Age" name="age" id="age" autocomplete="off" required><br>
+            <input type="text" placeholder="Enter your Roll number" name="roll_num" id="roll_num" autocomplete="off" required><br>
+            <input type="number" placeholder="Enter your Mobile number" name="ph_num" id="ph_num" autocomplete="off" required><br>
+            <input type="text" placeholder="Enter your Address" name="address" id="address" autocomplete="off" required><br><br>
+            <input type="submit" value="Register"><br>
+            <span>already registered? &nbsp;<a href="/students">click here.</a></span>
+        </form>
+        </div>
+        <a id="delete">
+            <div class="delete">
+                <form action="">
+                    <h3>Delete a student</h3><br>
+                    <input type="text" placeholder="Enter Student Roll Number" id="std_roll_num" autocomplete="off" required><br><br>
+                    <input type="button" onclick="deletestd()" value="Delete">
+                </form>
+            </div>
+        </a>
+        <a id="update">
+            <div class="update">
+                <form action="">
+                    <h3>Update a student</h3><br>
+                    <input type="text" placeholder="Enter Student Roll Number" name="std_update_roll_num" id="std_update_roll_num" autocomplete="off" required><br><br>
+
+                    <input type="email" placeholder="Enter your Email" name="up_email" id="up_email" autocomplete="off"><br>
+                    <input type="text" placeholder="Enter your Name" name="up_std_name" id="up_std_name" autocomplete="off"><br>
+                    <input type="number" placeholder="Enter your Age" name="up_age" id="up_age" autocomplete="off"><br>
+                    <input type="text" placeholder="Enter your Roll number" name="up_roll_num" id="up_roll_num" autocomplete="off"><br>
+                    <input type="number" placeholder="Enter your Mobile number" name="up_ph_num" id="up_ph_num" autocomplete="off"><br>
+                    <input type="text" placeholder="Enter your Address" name="up_address" id="up_address" autocomplete="off"><br><br>
+                    <input type="button" onclick="updatestd()" value="update">
+                </form>
+            </div>
+        </a>
+        <a id="search">
+            <div class="search">
+                <form action="">
+                    <h3>Search a student</h3><br>
+                    <input type="text" placeholder="Enter Student Roll Number" id="search_std_roll_num" autocomplete="off" required><br><br>
+                    <input type="button" onclick="searchstd()" value="search">
+                </form>
+            </div>
+        </a>
+    </main>
+</body>
+</html>
